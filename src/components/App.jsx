@@ -1,59 +1,46 @@
 import React, { Component } from 'react';
+import { nanoid } from 'nanoid';
 
-import { Statistics } from './Statistics/Statistics';
-import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
+import { Contacts } from './Contacts/Contacts';
+import { Form } from './Form/Form';
 import { Section } from './Section/Section';
-import { Notification } from './Notification/Notification';
 import { Container } from './App.styled';
 
 export class App extends Component {
   static defaultProps = {};
 
   state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
+    contacts: [
+      { id: nanoid(), name: 'Rosie Simpson', number: '459-12-56' },
+      { id: nanoid(), name: 'Hermione Kline', number: '443-89-12' },
+      { id: nanoid(), name: 'Eden Clements', number: '645-17-79' },
+      { id: nanoid(), name: 'Annie Copeland', number: '227-91-26' },
+    ],
+    filter: '',
   };
 
-  static propTypes = {};
-
-  onLeaveFeedback = event => {
+  handleSubmit = event => {
+    event.preventDefault();
     this.setState(prevState => {
-      return { [event.target.name]: prevState[event.target.name] + 1 };
+      const data = {
+        id: nanoid(),
+        name: event.target.elements.name.value,
+        number: event.target.elements.number.value,
+      };
+
+      return { contacts: [...prevState.contacts, data] };
     });
-  };
-
-  countTotalFeedback = () => {
-    return this.state.good + this.state.neutral + this.state.bad;
-  };
-
-  countPositiveFeedbackPercentage = () => {
-    if (this.countTotalFeedback() === 0) return 0;
-    return ((this.state.good / this.countTotalFeedback()) * 100).toFixed();
   };
 
   render() {
     return (
       <Container>
-        <Section title="Please leave feedback">
-          <FeedbackOptions
-            options={Object.keys(this.state)}
-            onLeaveFeedback={this.onLeaveFeedback}
-          />
+        <Section title="Phonebook">
+          <Form onSubmit={this.handleSubmit} />
         </Section>
 
-        <Section title="Statistics">
-          {this.countTotalFeedback() ? (
-            <Statistics
-              good={this.state.good}
-              neutral={this.state.neutral}
-              bad={this.state.bad}
-              total={this.countTotalFeedback()}
-              positivePercentage={this.countPositiveFeedbackPercentage()}
-            ></Statistics>
-          ) : (
-            <Notification message="There is no feedback" />
-          )}
+        <Section title="Contacts">
+          <Contacts contacts={this.state.contacts} />
         </Section>
       </Container>
     );
