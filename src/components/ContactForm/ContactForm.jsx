@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Input, Button } from './Form.styled';
+import { Input, Button } from './ContactForm.styled';
 
-export class Form extends Component {
+export class ContactForm extends Component {
   state = {
     name: '',
     number: '',
@@ -11,11 +11,32 @@ export class Form extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  render() {
+  reset = () => {
+    this.setState(prevState => {
+      return { name: '', number: '' };
+    });
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+
     const { onSubmit } = this.props;
+    const { name, number } = event.target.elements;
+
+    const data = {
+      name: name.value,
+      number: number.value,
+    };
+
+    onSubmit(data);
+
+    this.reset();
+  };
+
+  render() {
     const { name, number } = this.state;
     return (
-      <form onSubmit={onSubmit}>
+      <form onSubmit={this.handleSubmit}>
         <label>
           Name
           <Input
