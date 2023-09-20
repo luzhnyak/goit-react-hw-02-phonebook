@@ -11,5 +11,9 @@ export const Button = styled.button`
   border-radius: 3px;
   padding: 4px 8px;
   margin-right: 16px;
-  border: 2px solid black;
+  border: 1px solid black;
+  &:hover {
+    color: green;
+    border: 1px solid green;
+  }
 `;

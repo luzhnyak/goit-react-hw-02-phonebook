@@ -20,8 +20,13 @@ export class ContactForm extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    const { onSubmit } = this.props;
+    const { onSubmit, isNameHas } = this.props;
     const { name, number } = event.target.elements;
+
+    if (isNameHas(name.value)) {
+      alert(`${name.value} is already in contacts.`);
+      return;
+    }
 
     const data = {
       name: name.value,
@@ -43,6 +48,7 @@ export class ContactForm extends Component {
             type="text"
             name="name"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             required
             value={name}
             onChange={this.handleChange}
@@ -54,6 +60,7 @@ export class ContactForm extends Component {
             type="tel"
             name="number"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            pattern="\+?\d{1,4}?[\-.\s]?\(?\d{1,3}?\)?[\-.\s]?\d{1,4}[\-.\s]?\d{1,4}[\-.\s]?\d{1,9}"
             required
             value={number}
             onChange={this.handleChange}

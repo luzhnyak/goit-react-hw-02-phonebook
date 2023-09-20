@@ -17,7 +17,11 @@ export class App extends Component {
       { id: nanoid(), name: 'Eden Clements', number: '645-17-79' },
       { id: nanoid(), name: 'Annie Copeland', number: '227-91-26' },
     ],
-    filter: 'Rosie',
+    filter: '',
+  };
+
+  isNameHas = name => {
+    return this.state.contacts.some(contact => contact.name === name);
   };
 
   onSubmit = data => {
@@ -27,12 +31,9 @@ export class App extends Component {
     });
   };
 
-  onDelete = event => {
-    event.preventDefault();
+  onDelete = id => {
     this.setState(prevState => {
-      const data = prevState.contacts.filter(
-        contact => contact.id !== event.target.dataset.id
-      );
+      const data = prevState.contacts.filter(contact => contact.id !== id);
 
       return { contacts: [...data] };
     });
@@ -52,7 +53,7 @@ export class App extends Component {
     return (
       <Container>
         <Section title="Phonebook">
-          <ContactForm onSubmit={this.onSubmit} />
+          <ContactForm onSubmit={this.onSubmit} isNameHas={this.isNameHas} />
         </Section>
 
         <Section title="Contacts">
