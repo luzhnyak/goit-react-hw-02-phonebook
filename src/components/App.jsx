@@ -57,7 +57,9 @@ export class App extends Component {
         </Section>
 
         <Section title="Contacts">
-          <Filter filter={this.state.filter} onChange={this.handleChange} />
+          {this.state.contacts.length !== 0 && (
+            <Filter filter={this.state.filter} onChange={this.handleChange} />
+          )}
           <ContactList
             contacts={this.filterContacts()}
             onDelete={this.onDelete}
