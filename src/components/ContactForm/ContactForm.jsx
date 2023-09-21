@@ -12,25 +12,22 @@ export class ContactForm extends Component {
   };
 
   reset = () => {
-    this.setState(prevState => {
-      return { name: '', number: '' };
-    });
+    this.setState({ name: '', number: '' });
   };
 
   handleSubmit = event => {
     event.preventDefault();
 
     const { onSubmit, isNameHas } = this.props;
-    const { name, number } = event.target.elements;
+    const { name } = this.state;
 
-    if (isNameHas(name.value)) {
-      alert(`${name.value} is already in contacts.`);
+    if (isNameHas()) {
+      alert(`${name} is already in contacts.`);
       return;
     }
 
     const data = {
-      name: name.value,
-      number: number.value,
+      ...this.state,
     };
 
     onSubmit(data);

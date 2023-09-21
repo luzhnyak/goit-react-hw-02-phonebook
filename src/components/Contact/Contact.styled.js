@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Contact = styled.div`
+export const Item = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;

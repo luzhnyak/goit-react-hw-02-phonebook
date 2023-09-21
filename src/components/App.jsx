@@ -8,8 +8,6 @@ import { Container } from './App.styled';
 import { Filter } from './Filter/Filter';
 
 export class App extends Component {
-  static defaultProps = {};
-
   state = {
     contacts: [
       { id: nanoid(), name: 'Rosie Simpson', number: '459-12-56' },
@@ -25,18 +23,15 @@ export class App extends Component {
   };
 
   onSubmit = data => {
+    data.id = nanoid();
     this.setState(prevState => {
-      data.id = nanoid();
-      return { contacts: [...prevState.contacts, data] };
+      return { contacts: [...prevState.contacts, { ...data }] };
     });
   };
 
   onDelete = id => {
-    this.setState(prevState => {
-      const data = prevState.contacts.filter(contact => contact.id !== id);
-
-      return { contacts: [...data] };
-    });
+    const data = this.state.contacts.filter(contact => contact.id !== id);
+    this.setState({ contacts: [...data] });
   };
 
   handleChange = event => {
