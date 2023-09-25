@@ -21,7 +21,7 @@ export class ContactForm extends Component {
     const { onSubmit, isNameHas } = this.props;
     const { name } = this.state;
 
-    if (isNameHas()) {
+    if (isNameHas(name)) {
       alert(`${name} is already in contacts.`);
       return;
     }
